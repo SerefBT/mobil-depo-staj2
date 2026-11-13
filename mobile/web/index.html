@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+ <base href="$FLUTTER_BASE_HREF">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta name="description" content="Mobil Depo: ürün, raf, stok, birim talepleri ve son kullanma tarihlerini tek panelden yönetin.">
+ <meta name="theme-color" content="#123B44">
+ <meta name="mobile-web-app-capable" content="yes">
+ <meta name="apple-mobile-web-app-title" content="Mobil Depo">
+ <link rel="icon" type="image/svg+xml" href="depo-icon.svg">
+ <link rel="manifest" href="manifest.json">
+ <title>Mobil Depo | Stok ve Raf Yönetimi</title>
+ <style>html,body{margin:0;height:100%;background:#123b44;font-family:Arial,sans-serif}.loading{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff}.loading img{width:64px;height:64px;margin-bottom:24px}.loading strong{font-size:22px;letter-spacing:3px}.loading p{color:#b6d5cf;font-size:13px}</style>
+</head>
+<body>
+ <div class="loading" id="loading"><img src="depo-icon.svg" alt=""><strong>MOBİL DEPO</strong><p>Depo yönetim paneliniz hazırlanıyor…</p></div>
+ <noscript>Mobil Depo yönetim panelini kullanmak için JavaScript'i etkinleştirin.</noscript>
+ <script>window.addEventListener('flutter-first-frame',()=>document.getElementById('loading')?.remove());</script>
+ <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

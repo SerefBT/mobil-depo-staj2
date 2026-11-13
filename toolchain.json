@@ -1,0 +1,9 @@
+{
+  "dotnet": "10.0.403",
+  "flutter": "3.47.8",
+  "dart": "3.13.7",
+  "postgresql": "18.6",
+  "androidCompileSdk": 36,
+  "androidMinSdk": 24,
+  "java": 21
+}

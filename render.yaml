@@ -1,0 +1,21 @@
+# Deploy only after reviewing the site and connecting your Render account.
+# Neon is an external Free PostgreSQL project; no paid database is provisioned here.
+services:
+  - type: web
+    name: mobil-depo-demo
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    autoDeployTrigger: "off"
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Development
+      - key: Demo__Seed
+        value: "true"
+      - key: ConnectionStrings__Database
+        sync: false
+      - key: Jwt__Key
+        sync: false

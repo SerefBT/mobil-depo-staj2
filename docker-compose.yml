@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-mobildepo}
+      POSTGRES_USER: ${POSTGRES_USER:-depo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    ports: ["127.0.0.1:54329:5432"]
+    volumes: ["postgres_data:/var/lib/postgresql"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  api:
+    build: ./backend
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Database: Host=postgres;Port=5432;Database=${POSTGRES_DB:-mobildepo};Username=${POSTGRES_USER:-depo};Password=${POSTGRES_PASSWORD}
+      Jwt__Key: ${JWT_KEY:?Set JWT_KEY in .env}
+      Demo__Seed: ${DEMO_SEED:-true}
+    ports: ["127.0.0.1:5080:8080"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+volumes:
+  postgres_data:

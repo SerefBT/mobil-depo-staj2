@@ -1,0 +1,1066 @@
+Sen kıdemli bir mobil ve backend yazılım geliştiricisisin. Bana staj projesi olarak çalışır durumda, profesyonel görünümlü bir Android mobil uygulama geliştir.
+
+PROJE ADI:
+Mobil Depo, Raf Konumlandırma ve Stok Yönetim Sistemi
+
+PROJE AMACI:
+Bir kurum deposunda malzemelerin mobil cihaz üzerinden yönetilmesini sağlayan bir sistem geliştir.
+
+Depoya malzeme geldiğinde depo personeli mobil uygulama üzerinden ürün girişini yapabilsin. Ürünler depo, koridor ve raf bilgileriyle fiziksel olarak konumlandırılabilsin.
+
+Kurum içindeki farklı birimler depodan malzeme talebi oluşturabilsin. Depo personeli talepleri görüntüleyebilsin ve talep karşılandığında ilgili ürün miktarı stoktan otomatik olarak düşsün.
+
+Her ürün için bütün stok giriş-çıkış hareketleri geçmiş olarak saklansın.
+
+Uygulamada QR kod veya barkod desteği olsun. Depo personeli ürünün veya rafın QR/barkodunu telefon kamerasıyla okutarak ürüne hızlı erişebilsin.
+
+Bu uygulama gerçek bir kurum için geliştirilebilecek seviyede tasarlansın ancak geliştirme ve demo aşamasında gerçek kişisel/sağlık verisi kullanılmasın.
+
+==================================================
+1. KULLANILACAK TEKNOLOJİLER
+==================================================
+
+Mobil:
+- Flutter
+- Dart
+- Material 3
+- Android APK
+
+Backend:
+- ASP.NET Core Web API
+- C#
+- Entity Framework Core
+- REST API
+
+Veritabanı:
+- PostgreSQL
+
+Authentication:
+- JWT Authentication
+- Role Based Authorization
+
+Diğer:
+- QR / Barcode Scanner
+- Kamera erişimi
+- Push/local notifications
+- Swagger / OpenAPI
+- Git uyumlu proje yapısı
+
+Mümkün olduğunca güncel kararlı paketleri kullan.
+
+==================================================
+2. PROJE MİMARİSİ
+==================================================
+
+Projeyi aşağıdaki gibi ayır:
+
+/backend
+/mobile
+/docs
+
+Backend temiz ve anlaşılır katmanlara ayrılsın.
+
+Örnek:
+
+Backend:
+- Controllers
+- Services
+- Repositories
+- Models
+- DTOs
+- Data
+- Migrations
+- Authentication
+- Helpers
+
+Flutter:
+- models
+- services
+- screens
+- widgets
+- providers veya state management
+- utils
+- theme
+
+Kod okunabilir, modüler ve genişletilebilir olsun.
+
+==================================================
+3. KULLANICI ROLLERİ
+==================================================
+
+Sistemde 3 temel rol olsun.
+
+1. ADMIN / YÖNETİCİ
+
+Yetkileri:
+- Kullanıcı oluşturma
+- Kullanıcı rollerini belirleme
+- Birim oluşturma
+- Depo oluşturma
+- Raf oluşturma
+- Ürünleri görüntüleme
+- Stok durumlarını görüntüleme
+- Kritik stokları görüntüleme
+- Tüm talepleri görüntüleme
+- Stok hareket geçmişini görüntüleme
+- Genel dashboard görüntüleme
+
+2. DEPO PERSONELİ
+
+Yetkileri:
+- Ürün ekleme
+- Ürün güncelleme
+- Ürün girişi yapma
+- Ürün çıkışı yapma
+- Raf atama
+- QR/barkod okutma
+- Gelen talepleri görüntüleme
+- Talepleri hazırlama
+- Talepleri teslim etme
+- Kritik stokları görüntüleme
+- Ürün stok geçmişini görüntüleme
+
+3. BİRİM YETKİLİSİ
+
+Yetkileri:
+- Malzeme arama
+- Mevcut stok bilgisini görüntüleme
+- Malzeme talebi oluşturma
+- Kendi taleplerini görüntüleme
+- Talep durumunu görüntüleme
+
+==================================================
+4. AUTHENTICATION
+==================================================
+
+Login ekranı oluştur.
+
+Alanlar:
+- Kullanıcı adı veya e-mail
+- Şifre
+
+JWT kullanılmalı.
+
+Başarılı login sonrasında backend kullanıcının rolünü göndermeli.
+
+Flutter uygulaması kullanıcının rolüne göre uygun menüleri göstermeli.
+
+Token güvenli şekilde cihazda saklansın.
+
+Logout özelliği olsun.
+
+==================================================
+5. ANA DASHBOARD
+==================================================
+
+Dashboard modern kart yapısında olsun.
+
+Gösterilecek bilgiler:
+
+- Toplam ürün çeşidi
+- Toplam stok miktarı
+- Kritik stok sayısı
+- Bekleyen talep sayısı
+- Bugünkü giriş sayısı
+- Bugünkü çıkış sayısı
+
+Örnek:
+
+DEPO ÖZETİ
+
+Toplam Ürün:
+286
+
+Kritik Stok:
+14
+
+Bekleyen Talep:
+8
+
+Bugünkü Giriş:
+145
+
+Bugünkü Çıkış:
+97
+
+Alt bölümde son stok hareketleri gösterilsin.
+
+==================================================
+6. ÜRÜN YÖNETİMİ
+==================================================
+
+Her ürün için şu bilgiler olsun:
+
+- Ürün ID
+- Ürün kodu
+- Barkod
+- Ürün adı
+- Açıklama
+- Kategori
+- Ölçü birimi
+- Minimum stok seviyesi
+- Mevcut stok
+- Depo
+- Koridor
+- Raf
+- Oluşturulma tarihi
+- Güncellenme tarihi
+- Aktif/Pasif durumu
+
+Örnek:
+
+Ürün:
+Tek Kullanımlık Eldiven
+
+Kod:
+ELD-001
+
+Kategori:
+Sarf Malzeme
+
+Birim:
+Kutu
+
+Mevcut Stok:
+210
+
+Minimum Stok:
+50
+
+Konum:
+A Deposu
+Koridor 2
+Raf B-04
+
+==================================================
+7. DEPO VE RAF YAPISI
+==================================================
+
+Hiyerarşi:
+
+Depo
+→ Koridor
+→ Raf
+
+Örnek:
+
+A Deposu
+→ Koridor 1
+→ Raf A01
+→ Raf A02
+
+→ Koridor 2
+→ Raf B01
+→ Raf B02
+→ Raf B03
+
+Her rafın benzersiz bir QR kod değeri olsun.
+
+Örnek:
+
+DEPO-A-K2-B04
+
+QR okutulduğunda uygulama:
+
+RAF B-04
+
+Bu raftaki ürünler:
+
+- Eldiven / 210 kutu
+- Maske / 85 kutu
+- Dezenfektan / 37 adet
+
+gibi liste göstersin.
+
+==================================================
+8. QR / BARKOD SİSTEMİ
+==================================================
+
+Telefon kamerası kullanılarak QR ve barkod okutulabilsin.
+
+İki kullanım şekli olsun.
+
+1. ÜRÜN BARKODU
+
+Barkod okutulduğunda ürün detay ekranı açılsın.
+
+Göster:
+
+- Ürün adı
+- Stok miktarı
+- Minimum stok
+- Depo
+- Koridor
+- Raf
+- Son hareketler
+
+2. RAF QR KODU
+
+Raf QR okutulduğunda o raftaki ürünler listelensin.
+
+QR kod oluşturma desteği de eklenebiliyorsa ekle.
+
+==================================================
+9. STOK GİRİŞİ
+==================================================
+
+Depoya yeni ürün geldiğinde:
+
+STOK GİRİŞİ
+
+Ürün:
+[ seç ]
+
+Miktar:
+[ 100 ]
+
+Depo:
+[ A Deposu ]
+
+Koridor:
+[ 2 ]
+
+Raf:
+[ B04 ]
+
+Açıklama:
+[ Yeni sevkiyat ]
+
+[ STOĞA EKLE ]
+
+İşlem sonrasında:
+
+Eski stok:
+140
+
+Giriş:
++100
+
+Yeni stok:
+240
+
+olmalı.
+
+Aynı zamanda otomatik olarak StokHareketleri tablosuna kayıt eklenmeli.
+
+==================================================
+10. STOK ÇIKIŞI
+==================================================
+
+Manuel stok çıkışı da yapılabilsin.
+
+Alanlar:
+
+- Ürün
+- Miktar
+- Çıkış nedeni
+- Açıklama
+- Talep bağlantısı varsa TalepID
+
+Stok miktarı yetersizse işlem engellensin.
+
+Örneğin:
+
+Mevcut stok:
+20
+
+Çıkış:
+30
+
+ise:
+
+"Yetersiz stok. Mevcut stok miktarı: 20"
+
+hatası göster.
+
+==================================================
+11. STOK HAREKETLERİ
+==================================================
+
+Stok miktarları mümkün olduğunca hareket mantığıyla yönetilsin.
+
+Her hareket kayıt altına alınmalı.
+
+Hareket türleri:
+
+- Giriş
+- Çıkış
+- Talep Teslimi
+- Düzeltme
+- İade
+- Sayım Farkı
+
+Her hareket:
+
+- Hareket ID
+- Ürün ID
+- Hareket tipi
+- Miktar
+- Önceki stok
+- Sonraki stok
+- Kullanıcı
+- Tarih
+- Açıklama
+- Talep ID
+
+bilgilerini saklasın.
+
+Ürün detayında:
+
+STOK GEÇMİŞİ
+
++100
+Yeni sevkiyat
+12.07.2026 09:40
+
+-30
+Birim talebi
+12.07.2026 13:20
+
++50
+Yeni sevkiyat
+15.07.2026 10:10
+
+şeklinde göster.
+
+==================================================
+12. MALZEME TALEP SİSTEMİ
+==================================================
+
+Birim yetkilisi malzeme talebi oluşturabilsin.
+
+Talep:
+
+- Talep ID
+- Birim
+- Talep eden kullanıcı
+- Tarih
+- Öncelik
+- Açıklama
+- Durum
+
+Talep birden fazla ürün içerebilsin.
+
+Örnek:
+
+TALEP #1042
+
+Birim:
+İdari Hizmetler
+
+Ürün:
+Tek Kullanımlık Eldiven
+
+Miktar:
+30 kutu
+
+Öncelik:
+Normal
+
+Durum:
+Bekliyor
+
+Talep durumları:
+
+- Bekliyor
+- Onaylandı
+- Hazırlanıyor
+- Teslim Edildi
+- İptal Edildi
+
+==================================================
+13. TALEP KARŞILAMA
+==================================================
+
+Depo personeli bekleyen talepleri görüntülesin.
+
+Talep detayına girdiğinde:
+
+İstenen:
+30 kutu
+
+Stok:
+210 kutu
+
+[ TALEBİ HAZIRLA ]
+
+ve sonrasında:
+
+[ TESLİM ET ]
+
+butonu olsun.
+
+Teslim edildiğinde sistem transaction kullanarak:
+
+1. Stok miktarını düşürsün.
+2. Stok hareketi oluştursun.
+3. Talep durumunu "Teslim Edildi" yapsın.
+
+Bu işlemlerden biri başarısız olursa tüm işlem geri alınsın.
+
+==================================================
+14. KRİTİK STOK SİSTEMİ
+==================================================
+
+Her ürünün minimum stok seviyesi olsun.
+
+Örnek:
+
+Mevcut stok:
+42
+
+Minimum stok:
+50
+
+ise sistem ürünü kritik kabul etsin.
+
+Dashboard üzerinde:
+
+KRİTİK STOKLAR
+
+Eldiven
+42 / Minimum 50
+
+Maske
+15 / Minimum 25
+
+şeklinde göster.
+
+Minimum stok altına düşüldüğünde bildirim üret.
+
+==================================================
+15. PARTİ VE SON KULLANMA TARİHİ
+==================================================
+
+Opsiyonel ama mümkünse mutlaka ekle.
+
+Bazı ürünler parti bazlı yönetilebilsin.
+
+Parti:
+
+- Parti ID
+- Ürün ID
+- Parti numarası
+- Miktar
+- Son kullanma tarihi
+- Giriş tarihi
+
+Örnek:
+
+Ürün:
+X Malzemesi
+
+Parti:
+P2026-04
+
+Miktar:
+40
+
+SKT:
+14.02.2027
+
+Son kullanma tarihi yaklaşan ürünler için:
+
+30 gün
+15 gün
+7 gün
+
+uyarısı verilebilsin.
+
+Çıkış yaparken mümkünse FEFO mantığı kullan:
+
+First Expired First Out
+
+Yani son kullanma tarihi daha yakın olan parti önce önerilsin.
+
+==================================================
+16. ARAMA VE FİLTRELEME
+==================================================
+
+Ürün arama:
+
+- Ürün adı
+- Ürün kodu
+- Barkod
+- Kategori
+- Depo
+- Raf
+
+Filtreleme:
+
+- Kritik stoklar
+- Stokta olmayanlar
+- Belirli kategori
+- Belirli depo
+- Belirli raf
+
+Talep filtreleme:
+
+- Bekleyen
+- Hazırlanıyor
+- Teslim edildi
+- Acil
+- Birim
+
+==================================================
+17. RAPORLAMA
+==================================================
+
+En azından uygulama içerisinde rapor ekranı oluştur.
+
+Raporlar:
+
+- Günlük stok girişleri
+- Günlük stok çıkışları
+- Kritik stoklar
+- En çok kullanılan ürünler
+- Birimlere göre talepler
+- Stok hareket geçmişi
+- Yaklaşan son kullanma tarihleri
+
+Mümkünse PDF oluşturma veya CSV dışa aktarma ekle.
+
+==================================================
+18. BİLDİRİMLER
+==================================================
+
+Bildirim oluşturulabilecek durumlar:
+
+- Kritik stok
+- Yeni malzeme talebi
+- Talep onaylandı
+- Talep teslim edildi
+- Son kullanma tarihi yaklaşıyor
+
+İlk aşamada local notification yeterlidir.
+
+==================================================
+19. VERİTABANI TABLOLARI
+==================================================
+
+En az şu tabloları oluştur:
+
+Users
+Roles
+UserRoles
+Units
+Warehouses
+Aisles
+Shelves
+Categories
+Products
+Stocks
+StockMovements
+Requests
+RequestItems
+ProductBatches
+Notifications
+
+İlişkileri doğru oluştur.
+
+Foreign key kullan.
+
+Indexes ekle:
+
+- Barkod
+- ProductCode
+- ProductName
+- ShelfCode
+- RequestStatus
+- CreatedAt
+
+==================================================
+20. API ENDPOINTLERİ
+==================================================
+
+REST API geliştir.
+
+Örnek endpointler:
+
+POST /api/auth/login
+
+GET /api/products
+GET /api/products/{id}
+POST /api/products
+PUT /api/products/{id}
+
+GET /api/products/barcode/{barcode}
+
+POST /api/stock/in
+POST /api/stock/out
+
+GET /api/stock/movements/{productId}
+
+GET /api/warehouses
+GET /api/shelves
+GET /api/shelves/{id}/products
+
+GET /api/requests
+GET /api/requests/{id}
+
+POST /api/requests
+
+PUT /api/requests/{id}/approve
+PUT /api/requests/{id}/prepare
+PUT /api/requests/{id}/deliver
+PUT /api/requests/{id}/cancel
+
+GET /api/dashboard
+
+GET /api/reports/critical-stock
+GET /api/reports/stock-movements
+
+Endpointleri gerektiğinde iyileştir.
+
+==================================================
+21. FLUTTER EKRANLARI
+==================================================
+
+En az şu ekranları oluştur:
+
+1. Splash Screen
+2. Login
+3. Dashboard
+4. Ürün Listesi
+5. Ürün Detayı
+6. Ürün Ekle
+7. Stok Girişi
+8. Stok Çıkışı
+9. QR/Barkod Tarayıcı
+10. Depolar
+11. Raflar
+12. Raf Detayı
+13. Talepler
+14. Talep Oluştur
+15. Talep Detayı
+16. Kritik Stoklar
+17. Stok Hareket Geçmişi
+18. Raporlar
+19. Bildirimler
+20. Profil / Çıkış
+
+Role göre ekranları gizle/göster.
+
+==================================================
+22. UI/UX
+==================================================
+
+Arayüz öğrenci projesi gibi değil, gerçek kurumsal uygulama gibi görünmeli.
+
+Tasarım:
+
+- Material 3
+- Temiz
+- Minimal
+- Profesyonel
+- Responsive
+- Türkçe
+
+Ana renklerde sağlık kurumlarına uygun sakin tonlar kullanılabilir ancak aşırı renkli tasarım yapma.
+
+Kart yapıları kullan.
+
+İkonlar kullan.
+
+Form validation yap.
+
+Loading göstergeleri ekle.
+
+Başarılı işlemler için snackbar göster.
+
+Hataları kullanıcı dostu Türkçe mesajlarla göster.
+
+Dark mode eklenebilirse ekle.
+
+==================================================
+23. DEMO VERİLERİ
+==================================================
+
+Gerçek veriler kullanılmayacak.
+
+Seed data oluştur.
+
+Örnek depolar:
+
+A Deposu
+B Deposu
+
+Örnek raflar:
+
+A01
+A02
+A03
+B01
+B02
+B03
+B04
+
+Örnek kategoriler:
+
+- Sarf Malzeme
+- Temizlik
+- Kırtasiye
+- Teknik Malzeme
+- Koruyucu Ekipman
+
+En az 20 örnek ürün oluştur.
+
+Bazı ürünleri kritik stokta oluştur.
+
+En az:
+
+- 3 kullanıcı
+- 3 farklı rol
+- 5 birim
+- 2 depo
+- 10 raf
+- 20 ürün
+- 10 talep
+- 30 stok hareketi
+
+seed olarak oluştur.
+
+Demo login bilgilerini README'de belirt.
+
+Örnek:
+
+Admin
+admin@demo.local
+Admin123!
+
+Depo Personeli
+depo@demo.local
+Depo123!
+
+Birim Yetkilisi
+birim@demo.local
+Birim123!
+
+Bunlar sadece demo hesabı olsun.
+
+==================================================
+24. GÜVENLİK
+==================================================
+
+- Şifreleri plaintext tutma.
+- ASP.NET Identity veya güvenli password hashing kullan.
+- JWT kullan.
+- API endpointlerini role göre koru.
+- Input validation uygula.
+- SQL Injection'a açık kod yazma.
+- Kullanıcıdan gelen verilere güvenme.
+- Exception detaylarını production response içinde gösterme.
+- Gerçek hasta veya kişisel sağlık verisi kullanma.
+
+==================================================
+25. TRANSACTION YÖNETİMİ
+==================================================
+
+Özellikle stok işlemlerinde transaction kullan.
+
+Örneğin bir talep teslim edilirken:
+
+BEGIN TRANSACTION
+
+Stok kontrolü
+↓
+Stok azalt
+↓
+StockMovement oluştur
+↓
+Request durumunu güncelle
+
+COMMIT
+
+Hata:
+ROLLBACK
+
+Aynı anda iki kişinin stok değiştirmesi durumunda stok değerinin bozulmaması için uygun concurrency yaklaşımı kullan.
+
+==================================================
+26. TESTLER
+==================================================
+
+Backend için temel unit/integration testleri yaz.
+
+Özellikle test et:
+
+- Login
+- Yetki kontrolü
+- Ürün ekleme
+- Stok girişi
+- Stok çıkışı
+- Yetersiz stok
+- Kritik stok
+- Talep oluşturma
+- Talep teslimi
+- Talep tesliminde stok düşmesi
+- Stok hareket kaydı
+- Aynı talebin iki kez teslim edilememesi
+
+==================================================
+27. README
+==================================================
+
+Detaylı README.md oluştur.
+
+İçerik:
+
+- Proje açıklaması
+- Kullanılan teknolojiler
+- Mimari
+- Gereksinimler
+- PostgreSQL kurulumu
+- Connection string ayarı
+- Migration çalıştırma
+- Backend çalıştırma
+- Flutter çalıştırma
+- Android emulator
+- Fiziksel telefon kurulumu
+- APK build
+- Demo kullanıcıları
+- API adresi değiştirme
+- Ekran yapısı
+- Proje klasörleri
+
+==================================================
+28. APK
+==================================================
+
+Flutter uygulaması Android üzerinde çalışmalı.
+
+Debug build:
+
+flutter build apk --debug
+
+Release build:
+
+flutter build apk --release
+
+komutlarıyla build alınabilecek durumda olsun.
+
+AndroidManifest gerekli izinlerini ekle:
+
+- Kamera
+- İnternet
+- Bildirim
+
+Gereksiz izin isteme.
+
+==================================================
+29. GELİŞTİRME PRENSİBİ
+==================================================
+
+Benden her küçük işlem için onay isteme.
+
+Projeyi uçtan uca geliştir.
+
+Bir karar eksikse mantıklı ve profesyonel varsayım yap.
+
+Kodları placeholder olarak bırakma.
+
+"TODO" bırakmamaya çalış.
+
+Sadece tasarım oluşturup bırakma; gerçek çalışan backend, database ve Flutter kodunu oluştur.
+
+Öncelik sırası:
+
+1. Çalışan authentication
+2. Veritabanı
+3. Ürün/depo/raf yönetimi
+4. Stok hareket sistemi
+5. Talep sistemi
+6. QR/barkod
+7. Kritik stok
+8. Dashboard
+9. Raporlama
+10. Parti/SKT
+11. UI iyileştirme
+12. Test
+13. APK build
+
+Bir özellik diğerlerini bozacak kadar karmaşıksa önce stabil temel sistemi tamamla.
+
+==================================================
+30. PROJENİN BAŞARI KRİTERLERİ
+==================================================
+
+Proje sonunda şu senaryo eksiksiz çalışmalı:
+
+1. Depo personeli uygulamaya giriş yapar.
+2. Yeni ürün ekler.
+3. Ürünü A Deposu / Koridor 2 / B04 rafına atar.
+4. 100 adet stok girişi yapar.
+5. Sistem stok hareketini kaydeder.
+6. Birim yetkilisi uygulamadan 20 adet ürün talebi oluşturur.
+7. Depo personeli talebi görür.
+8. Talebi hazırlar.
+9. Talebi teslim eder.
+10. Stok 100'den 80'e düşer.
+11. -20 stok hareketi oluşur.
+12. Talep "Teslim Edildi" olur.
+13. Ürünün geçmişinde hem +100 hem -20 görülür.
+14. Ürün kritik stok seviyesine düşerse uyarı oluşur.
+15. Barkod okutulduğunda ürün bulunur.
+16. Raf QR okutulduğunda raftaki ürünler görüntülenir.
+
+Bu senaryo çalışıyorsa projenin temel fonksiyonları tamamlanmıştır.
+
+==================================================
+31. SON ÇIKTILAR
+==================================================
+
+Bana aşağıdaki çıktıları hazırla:
+
+- Çalışan Flutter mobil projesi
+- Çalışan ASP.NET Core backend
+- PostgreSQL database migrationları
+- Seed/demo verileri
+- Swagger
+- QR/barkod sistemi
+- Testler
+- README
+- .gitignore
+- Örnek env/config dosyaları
+- Android APK build ayarları
+- Release APK mümkünse oluştur
+- Veritabanı ER diyagramı için Mermaid kodu
+- Sistem mimarisi için Mermaid diyagramı
+- API endpoint dokümantasyonu
+
+Projenin derlenmesini kontrol et.
+
+Backend build hatası bırakma.
+Flutter analyze hatalarını mümkün olduğunca temizle.
+APK build alabiliyorsan build al.
+
+Bir hata çıkarsa sebebini bulup düzeltmeden işi tamamlanmış sayma.
+
+==================================================
+32. PROJENİN STAJ SUNUMUNDAKİ TANIMI
+==================================================
+
+Proje aşağıdaki probleme çözüm olarak geliştiriliyor:
+
+"Kurum depolarında malzemelerin stok miktarlarının, fiziksel raf konumlarının, giriş-çıkış hareketlerinin ve birimlerden gelen ihtiyaçların merkezi bir sistem üzerinden yönetilmesini sağlamak; depo çalışanlarının mobil cihaz üzerinden ürünlere hızlı erişmesini ve QR/barkod teknolojisiyle depo operasyonlarını kolaylaştırmak."
+
+Bu nedenle uygulama sadece klasik CRUD uygulaması olmamalıdır.
+
+Özellikle şu özellikler projenin temel teknik değeridir:
+
+- Mobil depo operasyonu
+- QR/Barkod
+- Raf konumlandırma
+- Transaction tabanlı stok hareketleri
+- Talep karşılandığında otomatik stok düşümü
+- Kritik stok uyarıları
+- Stok hareket geçmişi
+- Rol tabanlı yetkilendirme
+- Parti/SKT ve FEFO desteği
+- Raporlama
+
+Şimdi projeyi oluşturmaya başla.
+
+İlk olarak proje klasör yapısını oluştur, ardından backend ve veritabanını ayağa kaldır, daha sonra Flutter uygulamasını geliştir.
+
+Benden sürekli onay bekleme. Çalışan bir proje ortaya çıkarana kadar gerekli dosyaları, kodları ve yapılandırmaları kendin oluştur ve hataları kendin düzelt.
